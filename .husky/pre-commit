@@ -1,0 +1,1 @@
+npm run lint-staged && git update-index --again
