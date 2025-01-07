@@ -128,3 +128,7 @@ out
 .yarn/install-state.gz
 .pnp.*
 
+
+dist/*.map
+dist/*.js
+!dist/index.js

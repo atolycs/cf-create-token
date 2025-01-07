@@ -11,6 +11,8 @@ branding:
 inputs:
   token:
    description: "Create Additional Accounts Token Key"
+  account_id:
+   description: "Cloudflare Account Id"
 
 # Define your outputs here.
 outputs:

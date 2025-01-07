@@ -9,11 +9,7 @@
     "format": "bimoe format --fix .",
     "package": "npx esbuild --platform=node --bundle --outdir=dist src/index.ts"
   },
-  "keywords": [
-    "actions",
-    "node",
-    "setup"
-  ],
+  "keywords": ["actions", "node", "setup"],
   "author": "Atolycs",
   "license": "MIT",
   "description": "My Github Action Template",
@@ -23,6 +19,7 @@
   "devDependencies": {
     "@atolycs/biome-config": "^0.1.0",
     "@octokit/types": "^13.6.2",
+    "@types/cloudflare": "^2.7.15",
     "@types/node": "^22.10.5",
     "esbuild": "^0.24.2",
     "husky": "^9.1.7",
@@ -34,8 +31,6 @@
     "cloudflare": "^3.5.0"
   },
   "lint-staged": {
-    "./src/**/*.ts": [
-      "biome format --fix ."
-    ]
+    "./src/**/*.ts": ["biome format --fix ."]
   }
 }

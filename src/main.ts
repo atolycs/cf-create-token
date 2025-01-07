@@ -1,17 +1,22 @@
 import * as core from "@actions/core";
-import { wait } from "./wait";
+import Cloudflare from "cloudflare";
 
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput("milliseconds");
+    const additional_token = core.getInput("token");
+    const account_id = core.getInput("account_id");
 
-    core.debug(`Waiting ${ms} milliseconds ...`);
+    const client = new Cloudflare({
+      apiToken: additional_token,
+    });
 
-    core.debug(new Date().toString());
-    await wait(Number.parseInt(ms, 10));
-    core.debug(new Date().toString());
+    core.info("==> Checking Token Availables...");
 
-    core.setOutput("time", new Date().toTimeString());
+    const response = await client.accounts.tokens.verify({
+      account_id: account_id,
+    });
+
+    core.info(`Token Status: ${response.status}`);
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   }
