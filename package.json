@@ -6,7 +6,7 @@
     "prepare": "husky",
     "lint-staged": "lint-staged",
     "lint": "biome lint .",
-    "format": "bimoe format --fix .",
+    "format": "biome format --fix .",
     "package": "npx esbuild --platform=node --bundle --outdir=dist src/index.ts"
   },
   "keywords": ["actions", "node", "setup"],
@@ -17,6 +17,7 @@
     ".": "./dist/index.js"
   },
   "devDependencies": {
+    "@actions/github": "^6.0.0",
     "@atolycs/biome-config": "^0.1.0",
     "@octokit/types": "^13.6.2",
     "@types/cloudflare": "^2.7.15",

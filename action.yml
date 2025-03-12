@@ -13,11 +13,15 @@ inputs:
    description: "Create Additional Accounts Token Key"
   account_id:
    description: "Cloudflare Account Id"
+  github_token:
+    description: "Github Apps Installer Token"
+    required: false
+    default: ${{ github.token }}
 
 # Define your outputs here.
 outputs:
   add_token:
-    description: 'Additional Token'
+    description: 'Cloudflare Additional Token'
 
 runs:
   using: node20
