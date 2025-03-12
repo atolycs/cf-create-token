@@ -51921,6 +51921,7 @@ async function run() {
     core.setSecret(token_response.value);
     core.setOutput("cf-token", token_response.value);
     core.saveState("cf-token-id", token_response.id);
+    core.saveState("cf-token", token_response.value);
     core.saveState("controller-token", control_token);
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);

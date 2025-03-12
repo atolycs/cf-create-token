@@ -98,6 +98,7 @@ export async function run(): Promise<void> {
     core.setSecret(token_response.value);
     core.setOutput("cf-token", token_response.value);
     core.saveState("cf-token-id", token_response.id);
+    core.saveState("cf-token", token_response.value);
     core.saveState("controller-token", control_token);
     //console.log(permission_groups)
   } catch (error) {
