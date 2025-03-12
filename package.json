@@ -7,7 +7,7 @@
     "lint-staged": "lint-staged",
     "lint": "biome lint .",
     "format": "biome format --fix .",
-    "package": "npx esbuild --platform=node --bundle --outdir=dist src/index.ts"
+    "package": "npx esbuild --platform=node --bundle --outdir=dist src/index.ts src/post.ts"
   },
   "keywords": ["actions", "node", "setup"],
   "author": "Atolycs",

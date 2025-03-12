@@ -35,14 +35,13 @@ async function getGitHubIP(
 
 export async function run(): Promise<void> {
   try {
-    const additional_token = core.getInput("token");
+    const control_token = core.getInput("token");
     const groupList = ["Pages Write", "Pages Read"];
 
     core.info("==> Getting Github action metadata...");
-    const gitHubActionsRange = getGitHubIP();
 
     const client = new Cloudflare({
-      apiToken: additional_token,
+      apiToken: control_token,
     });
 
     core.info("==> Checking Generate only Token is Availables...");
@@ -61,21 +60,6 @@ export async function run(): Promise<void> {
       account_id: account_id,
     });
 
-    //console.dir(perm_response.result, {'maxArrayLength': null})
-    /*     const groups = perm_response.result.find((g: any) => {
-    	return g.name === "Pages Write"
-    })
- */
-
-    /*     const groups = await Promise.all(
-      groupList.map(async (c) => {
-        const temp_permission = await perm_response.result.find((g: any) => {
-          return g.name === c;
-        });
-        return temp_permission;
-      }),
-    ); */
-
     const payload: TokenCreateParams = {
       account_id,
       name: "Github Actions Temporaly Token",
@@ -84,9 +68,7 @@ export async function run(): Promise<void> {
           const temp_permission = await perm_response.result.find((g: any) => {
             return g.name === permission;
           });
-
-          let resource = `${temp_permission.scopes}.zone.${account_id}`;
-
+          let resource = `${temp_permission.scopes}.${account_id}`;
           return {
             effect: "allow",
             permission_groups: [
@@ -111,7 +93,12 @@ export async function run(): Promise<void> {
     console.log(payload);
     const token_response = await client.accounts.tokens.create(payload);
 
-    console.log(token_response);
+    core.info("==> Temporaly Token Generated.");
+
+    core.setSecret(token_response.value);
+    core.setOutput("cf-token", token_response.value);
+    core.saveState("cf-token-id", token_response.id);
+    core.saveState("controller-token", control_token);
     //console.log(permission_groups)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);

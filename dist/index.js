@@ -19662,10 +19662,10 @@ var require_core = __commonJS({
       (0, command_1.issueCommand)("set-env", { name }, convertedVal);
     }
     exports2.exportVariable = exportVariable;
-    function setSecret(secret) {
+    function setSecret2(secret) {
       (0, command_1.issueCommand)("add-mask", {}, secret);
     }
-    exports2.setSecret = setSecret;
+    exports2.setSecret = setSecret2;
     function addPath(inputPath) {
       const filePath = process.env["GITHUB_PATH"] || "";
       if (filePath) {
@@ -19707,7 +19707,7 @@ var require_core = __commonJS({
 Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
     }
     exports2.getBooleanInput = getBooleanInput;
-    function setOutput(name, value) {
+    function setOutput2(name, value) {
       const filePath = process.env["GITHUB_OUTPUT"] || "";
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("OUTPUT", (0, file_command_1.prepareKeyValueMessage)(name, value));
@@ -19715,7 +19715,7 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       process.stdout.write(os.EOL);
       (0, command_1.issueCommand)("set-output", { name }, (0, utils_1.toCommandValue)(value));
     }
-    exports2.setOutput = setOutput;
+    exports2.setOutput = setOutput2;
     function setCommandEcho(enabled) {
       (0, command_1.issue)("echo", enabled ? "on" : "off");
     }
@@ -19770,14 +19770,14 @@ Support boolean input list: \`true | True | TRUE | false | False | FALSE\``);
       });
     }
     exports2.group = group;
-    function saveState(name, value) {
+    function saveState2(name, value) {
       const filePath = process.env["GITHUB_STATE"] || "";
       if (filePath) {
         return (0, file_command_1.issueFileCommand)("STATE", (0, file_command_1.prepareKeyValueMessage)(name, value));
       }
       (0, command_1.issueCommand)("save-state", { name }, (0, utils_1.toCommandValue)(value));
     }
-    exports2.saveState = saveState;
+    exports2.saveState = saveState2;
     function getState(name) {
       return process.env[`STATE_${name}`] || "";
     }
@@ -51870,12 +51870,11 @@ async function getGitHubIP(batch = "actions", retries = 3) {
 }
 async function run() {
   try {
-    const additional_token = core.getInput("token");
+    const control_token = core.getInput("token");
     const groupList = ["Pages Write", "Pages Read"];
     core.info("==> Getting Github action metadata...");
-    const gitHubActionsRange = getGitHubIP();
     const client = new cloudflare_default({
-      apiToken: additional_token
+      apiToken: control_token
     });
     core.info("==> Checking Generate only Token is Availables...");
     const account_id = core.getInput("account_id");
@@ -51895,7 +51894,7 @@ async function run() {
           const temp_permission = await perm_response.result.find((g2) => {
             return g2.name === permission;
           });
-          let resource = `${temp_permission.scopes}.zone.${account_id}`;
+          let resource = `${temp_permission.scopes}.${account_id}`;
           return {
             effect: "allow",
             permission_groups: [
@@ -51918,7 +51917,11 @@ async function run() {
     };
     console.log(payload);
     const token_response = await client.accounts.tokens.create(payload);
-    console.log(token_response);
+    core.info("==> Temporaly Token Generated.");
+    core.setSecret(token_response.value);
+    core.setOutput("cf-token", token_response.value);
+    core.saveState("cf-token-id", token_response.id);
+    core.saveState("controller-token", control_token);
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   }

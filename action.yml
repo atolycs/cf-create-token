@@ -20,9 +20,10 @@ inputs:
 
 # Define your outputs here.
 outputs:
-  add_token:
+  cf-token:
     description: 'Cloudflare Additional Token'
 
 runs:
   using: node20
   main: dist/index.js
+  post: dist/post.js
