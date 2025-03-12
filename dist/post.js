@@ -26214,7 +26214,7 @@ var init_fileFromPath = __esm({
 // src/post.ts
 var post_exports = {};
 __export(post_exports, {
-  run: () => run
+  post: () => post
 });
 module.exports = __toCommonJS(post_exports);
 var core = __toESM(require_core());
@@ -47802,7 +47802,7 @@ Cloudflare.SecurityCenter = SecurityCenter;
 var cloudflare_default = Cloudflare;
 
 // src/post.ts
-async function run() {
+async function post() {
   try {
     const client = new cloudflare_default({
       apiToken: core.getState("controller-token")
@@ -47819,9 +47819,10 @@ async function run() {
     if (error instanceof Error) core.setFailed(error.message);
   }
 }
+post();
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  run
+  post
 });
 /*! Bundled license information:
 

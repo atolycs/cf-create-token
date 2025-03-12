@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import Cloudflare from "cloudflare";
 
-export async function run(): Promise<void> {
+export async function post(): Promise<void> {
   try {
     const client = new Cloudflare({
       apiToken: core.getState("controller-token"),
@@ -21,3 +21,5 @@ export async function run(): Promise<void> {
     if (error instanceof Error) core.setFailed(error.message);
   }
 }
+
+post();
