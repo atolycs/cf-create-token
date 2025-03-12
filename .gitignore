@@ -132,3 +132,4 @@ out
 dist/*.map
 dist/*.js
 !dist/index.js
+!dist/post.js
