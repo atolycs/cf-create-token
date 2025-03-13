@@ -23,8 +23,12 @@ on:
 
 # Input
 `token`: Cloudflare Additional Permission Only Token
+
 `account_id`: Cloudflare Account ID
+
 `github_token`: Github Token (optional)
+
 
 # Output
 `cf-token`: Generated Temporaly Pages Deploy Token
+
